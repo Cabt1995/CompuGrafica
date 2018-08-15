@@ -1,0 +1,2 @@
+# CompuGrafica
+Practicas Computación Grafica
