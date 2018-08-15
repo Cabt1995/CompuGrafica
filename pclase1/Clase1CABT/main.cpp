@@ -1,8 +1,10 @@
 /* Este programa dibuja una "Tetera", este objeto esta definido 
-nombre: Basilio Torres Carlos Alberto 
+ * en GLUT, se crea una fuente de luz, y un material 
+ nombre: Basilio Torres Carlos Alberto 
 practica:1
 version de visual :2015
- * en GLUT, se crea una fuente de luz, y un material */
+
+ */
 
 //Incluimos las librerias
 //#include <GL/glut.h>
