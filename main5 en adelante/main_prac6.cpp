@@ -1,9 +1,9 @@
 //Semestre 2017 - 2
 //************************************************************//
 //************************************************************//
-//************** Alumno (s): *********************************//
-//*************											******//
-//*************											******//
+//************** Alumno (s): Basilio Torres Carlos Alberto****//
+//*************	Practica: 6								******//
+//*************	Version de visual estudio: 2017         ******//
 //************************************************************//
 #include "Main.h"
 
@@ -17,7 +17,7 @@ DWORD dwElapsedTime = 0;
 
 //Variables used to create movement
 
-int sol=0;
+int sol = 0;
 int venus = 0;
 int mercurio = 0;
 int marte = 0;
@@ -25,27 +25,28 @@ int tierra = 0;
 int jupiter = 0;
 int saturno = 0;
 int urano = 0;
+float ejey = 0.0f, ejex = 0.0f;
 float camaraZ = 0.0;
 float camaraX = 0.0;
 
 
-GLfloat SunDiffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };			// Diffuse Light Values
+GLfloat SunDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };			// Diffuse Light Values
 GLfloat SunSpecular[] = { 1.0, 1.0, 1.0, 1.0 };				// Specular Light Values
-GLfloat SunPosition[]= { 0.0f, 0.0f, 0.0f, 1.0f };			// Light Position
+GLfloat SunPosition[] = { 0.0f, 0.0f, 0.0f, 1.0f };			// Light Position
 
-GLfloat EarthDiffuse[]= { 0.2f, 0.2f, 1.0f, 1.0f };			// Tierra
+GLfloat EarthDiffuse[] = { 0.2f, 0.2f, 1.0f, 1.0f };			// Tierra
 GLfloat EarthSpecular[] = { 0.8, 0.8, 0.8, 1.0 };
 GLfloat EarthShininess[] = { 50.0 };
 
-GLfloat MoonDiffuse[]= { 0.8f, 0.8f, 0.8f, 1.0f };			// Luna
+GLfloat MoonDiffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };			// Luna
 GLfloat MoonSpecular[] = { 1.0, 1.0, 1.0, 1.0 };
 GLfloat MoonShininess[] = { 50.0 };
 
-GLfloat MarsDiffuse[]= { 0.8f, 0.4f, 0.1f, 1.0f };			// Marte
+GLfloat MarsDiffuse[] = { 0.8f, 0.4f, 0.1f, 1.0f };			// Marte
 GLfloat MarsSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
 GLfloat MarsShininess[] = { 50.0 };
 
-void InitGL ( GLvoid )     // Inicializamos parametros
+void InitGL(GLvoid)     // Inicializamos parametros
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);				// Negro de fondo
 
@@ -53,106 +54,141 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	glEnable(GL_DEPTH_TEST);							// Habilitamos Depth Testing
 	glDepthFunc(GL_LEQUAL);								// Tipo de Depth Testing a realizar
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	
-	
+
+
 }
 
-void display ( void )   // Creamos la funcion donde se dibuja
+void display(void)   // Creamos la funcion donde se dibuja
 {
-	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	glTranslatef(camaraX,0.0,-5.0+camaraZ);			//camara
-		
-	glRotatef(sol,0.0,1.0,0.0);	//El Sol gira sobre su eje
+	glTranslatef(camaraX, 0.0, -5.0 + camaraZ);			//camara
 	
-		glPushMatrix();
-			glColor3f( 1.0,1.0,0.0 );	//Sol amarillo
-			glutSolidSphere(2.0,12,12);  //Draw Sun (radio,H,V);
+	glRotatef(ejey, 0, 0, 1);
+	glRotatef(ejex, 1, 0, 0);
 
-			glPushMatrix();//mercurio
-				glRotatef(sol, 0.0, 1.0, 0.0);
-				glTranslatef(3.2,0,0);
-				glRotatef(mercurio, 0.0, 1.0, 0.0);
-			    glColor3f(0.5, 0.5, 0.5);	//planeta gris
-				glutSolidSphere(.3, 4, 4);  //Draw Sun (radio,H,V);
-			glPopMatrix();
+	glPushMatrix();
+			glRotatef(sol, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
 
-			glPushMatrix();//venus
-				glRotatef(1.2*sol, 0.0, 1.0, 0.0);
-				glTranslatef(4.5, 0, 0);
-				glRotatef(venus, 0.0, 1.0, 0.0);
-				glColor3f(1, .6, .8);	//planeta gris
-				glutSolidSphere(.5, 4, 4);  //Draw Sun (radio,H,V);
-			glPopMatrix();
+			glPushMatrix();
+				glColor3f(1.0, 1.0, 0.0);	//Sol amarillo
+				glutSolidSphere(2.0, 12, 12);  //radio de 2 unidades;
 
-			glPushMatrix();//tierra
-				glRotatef(1.4*sol, 0.0, 1.0, 0.0);
-				glTranslatef(7, 0, 0);
-				glRotatef(tierra, 0.0, 1.0, 0.0);
-				glColor3f(0, 0.6, 1);	//planeta azul
-				glutSolidSphere(.5, 10, 10);  //Draw Sun (radio,H,V);
+					glPushMatrix();//mercurio
+						glRotatef(2*sol, 0.0, 1.0, 0.0); //traslacion a una velocidad de 2 veces la velocidad del sol
+						glTranslatef(-3.2, 0, 0);
+						glRotatef(mercurio, 0.0, 1.0, 0.0);
+						glColor3f(0.5, 0.5, 0.5);	//planeta gris
+						glutSolidSphere(.3, 30, 30);  //radio de .3 unidades
+					glPopMatrix();
 
-				glPushMatrix();//luna de la tierra
-					glRotatef(.4 * tierra, 0.0, 1.0, 0.0);
-					glTranslatef(.9, 0, 0);
-					glRotatef(tierra, 0.0, 1.0, 0.0);
-					glColor3f(1, 1, 1);	//planeta blanca
-					glutSolidSphere(.15, 10, 10);  //Draw Sun (radio,H,V);	
+					glPushMatrix();//venus
+						glRotatef(3*sol, 0.0, 1.0, 0.0);//traslacion a una velocidad de 3 veces la velocidad del sol
+						glTranslatef(4.5, 0, 0);
+						glRotatef(venus, 0.0, 1.0, 0.0);
+						glColor3f(1, .6, .8);	//planeta rosa
+						glutSolidSphere(.5, 15, 15);  //radio de .5 unidades;
+					glPopMatrix();
+
+					glPushMatrix();//tierra
+						glRotatef(4*sol, 0.0, 1.0, 0.0);//traslacion a una velocidad de 4 veces la velocidad del sol
+						glTranslatef(-7, 0, 0);
+						glRotatef(tierra, 0.0, 1.0, 0.0);
+						glColor3f(0, 0.6, 1);	//planeta azul
+						glutSolidSphere(.5, 10, 10);  //radio de .5 unidades;
+
+						glPushMatrix();//luna de la tierra
+							glRotatef(.4 * tierra, 0.0, 1.0, 0.0);//traslacion a una velocidad de .4 veces la velocidad de la tierra
+							glTranslatef(.9, 0, 0);
+							glRotatef(tierra, 0.0, 1.0, 0.0);
+							glColor3f(1, 1, 1);	//luna blanca
+							glutSolidSphere(.15, 10, 10);  //radio de .15 unidades;	
+						glPopMatrix();
+					glPopMatrix();
+
+					glPushMatrix();//marte
+						glRotatef(1.6*sol, 0.0, 1.0, 0.0);//traslacion a una velocidad de 1.6 veces la velocidad del sol
+						glTranslatef(11, 0, 0);
+						glRotatef(marte, 0.0, 1.0, 0.0);
+						glColor3f(1, 0.2, 0);	//planeta rojo
+						glutSolidSphere(.4, 9, 9);  //radio de .4 unidades;
+
+						glPushMatrix();//luna de marte
+							glRotatef(.00001 * marte, 0.0, 1.0, 0.0); //traslacion a una velocidad de .00001 veces la velocidad de marte
+							glTranslatef(.9, 0, 0);
+							glRotatef(marte, 0.0, 1.0, 0.0);
+							glColor3f(1, 1, 1);	//luna blanca
+							glutSolidSphere(.15, 10, 10);  //radio de .15 unidades	
+						glPopMatrix();
+
+						glPushMatrix();//luna de marte
+							glRotatef(.0001 * marte, 0.0, 1.0, 0.0);  //traslacion a una velocidad de .0001 veces la velocidad de marte
+							glTranslatef(-1.8, 0, 0);
+							glRotatef(tierra, 0.0, 1.0, 0.0);
+							glColor3f(1, 1, 1);	//luna blanca
+							glutSolidSphere(.15, 10, 10);  //radio de .15 unidades	
+						glPopMatrix();
+
 				glPopMatrix();
+
+					glPushMatrix();//jupiter
+						glRotatef(5*sol, 0.0, 1.0, 0.0); //traslacion a una velocidad de 5 veces la velocidad del sol
+						glTranslatef(-16, 0, 0);
+						glRotatef(jupiter, 0.0, 1.0, 0.0);
+						glColor3f(1, .85, 0.7);	//planeta cafe
+						glutSolidSphere(1.0, 8, 8);  //radio una unidad
+
+						glPushMatrix();//luna de jupiter
+							glRotatef(.1 * jupiter, 0.0, 1.0, 0.0);//traslacion a una velocidad de .1 veces la velocidad de jupiter
+							glTranslatef(-1.5, 0, 0);
+							glRotatef(tierra, 0.0, 1.0, 0.0);
+							glColor3f(1, 1, 1);	//luna blanca
+							glutSolidSphere(.15, 10, 10);  //radio de .15 unidades 
+						glPopMatrix();
+
+						glPushMatrix();//luna de jupiter
+							glRotatef(.5 * jupiter, 0.0, 1.0, 0.0); //traslacion a una velocidad de .5 veces la velocidad de jupiter
+							glTranslatef(1.9, 0, 0);
+							glRotatef(tierra, 0.0, 1.0, 0.0);
+							glColor3f(1, 1, 1);	//luna blanca
+							glutSolidSphere(.15, 10, 10);  //rdio de .15 unidades	
+						glPopMatrix();
+
+						glPushMatrix();//luna de jupiter
+							glRotatef(.3 * jupiter, 0.0, 1.0, 0.0);//traslacion a una velocidad de .3 veces la velocidad de jupiter
+							glTranslatef(2.1, 0, 2);
+							glRotatef(tierra, 0.0, 1.0, 0.0);
+							glColor3f(1, 1, 1);	//luna blanca
+							glutSolidSphere(.15, 10, 10);  //radio de .15 unidades
+						glPopMatrix();
+					glPopMatrix();
+
+					glPushMatrix();//saturno
+						glRotatef(2.0*sol, 0.0, 1.0, 0.0);//traslacion a una velocidad de 2 veces la velocidad del sol
+						glTranslatef(21, 0, 0);
+						glRotatef(saturno, 0.0, 1.0, 0.0);
+						glColor3f(0.713, 0.427, 0.2186);	//planeta cafe
+						glutSolidSphere(.9, 20,20);  //radio de .9 unidades
+				
+						glPushMatrix();
+							glRotated(90, 1, 0, 0); // se rota 90 grados
+							glColor3f(1, 1, 1);//color blanco
+							glutSolidTorus(.03, 1.3, 20, 20); //toroide de .03 unidades de radio interno y 1.3 unidades de radio externo
+						glPopMatrix();
+					glPopMatrix();
 			glPopMatrix();
+	glPopMatrix();
 
-			glPushMatrix();//marte
-				glRotatef(1.6*sol, 0.0, 1.0, 0.0);
-				glTranslatef(10, 0, 0);
-				glRotatef(marte, 0.0, 1.0, 0.0);
-				glColor3f(1, 0.2, 0);	//planeta rojo
-				glutSolidSphere(.4, 9, 9);  //Draw Sun (radio,H,V);
-
-				glPushMatrix();//luna de marte
-				glRotatef(.1 * marte, 0.0, 1.0, 0.0);
-				glTranslatef(.9, 0, 0);
-				glRotatef(tierra, 0.0, 1.0, 0.0);
-				glColor3f(1, 1, 1);	//planeta blanca
-				glutSolidSphere(.15, 10, 10);  //Draw Sun (radio,H,V);	
-				glPopMatrix();
-
-				glPushMatrix();//luna de la tierra
-				glRotatef(.1 * tierra, 0.0, 1.0, 0.0);
-				glTranslatef(-.9, 0, 0);
-				glRotatef(tierra, 0.0, 1.0, 0.0);
-				glColor3f(1, 1, 1);	//planeta blanca
-				glutSolidSphere(.15, 10, 10);  //Draw Sun (radio,H,V);	
-				glPopMatrix();
-
-			glPopMatrix();
-
-			glPushMatrix();//jupiter
-				glRotatef(1.8*sol, 0.0, 1.0, 0.0);
-				glTranslatef(12.5, 0, 0);
-				glRotatef(jupiter, 0.0, 1.0, 0.0);
-				glColor3f(1, .85, 0.7);	//planeta cafe
-				glutSolidSphere(1.0, 8, 8);  //Draw Sun (radio,H,V);
-			glPopMatrix();
-
-			glPushMatrix();//saturno
-				glRotatef(2.0*sol, 0.0, 1.0, 0.0);
-				glTranslatef(13.3, 0, 0);
-				glRotatef(saturno, 0.0, 1.0, 0.0);
-				glColor3f(0.5, 0.5, 0.5);	//planeta gris
-				glutSolidSphere(.9, 4, 4);  //Draw Sun (radio,H,V);
-			glPopMatrix();
-
-			glPushMatrix();//urano
-				glRotatef(2.2*sol, 0.0, 1.0, 0.0);
-				glTranslatef(15.6, 0, 0);
-				glRotatef(urano, 0.0, 1.0, 0.0);
-				glColor3f(0.5, 0.5, 0.5);	//planeta gris
-				glutSolidSphere(.8, 4, 4);  //Draw Sun (radio,H,V);
-			glPopMatrix();
-
-		glPopMatrix();
-	glutSwapBuffers ( );
+	glPushMatrix();//urano
+	glRotatef(sol, 0.0, 1.0, 0.0);//traslacion a la velocidad del sol
+	glTranslatef(-25.6, 0, 0);
+	glRotatef(urano, 0.0, 1.0, 0.0);
+	glColor3f(0.02745, 0.8, 0.9215);	//planeta azul
+	glutSolidSphere(.8, 100, 100);  //radio de .8 unidades
+	glPopMatrix();
+	glPopMatrix();
+	glutSwapBuffers();
 
 }
 
@@ -163,16 +199,37 @@ void animacion()
 	dwCurrentTime = GetTickCount(); // Even better to use timeGetTime()
 	dwElapsedTime = dwCurrentTime - dwLastUpdateTime;
 
-	if(dwElapsedTime >= 30)
+	if (dwElapsedTime >= 60)
 	{
-		sol = (sol - 0) ;
-		mercurio = (mercurio - 5) % 360;
-		venus = (venus - 5) % 360;
-		tierra = (tierra - 6) % 360;
-		marte = (marte - 7) % 360;
-		jupiter = (jupiter - 8) % 360;
-		saturno = (saturno - 9) % 360;
-		urano = (urano - 10) % 360;
+		/*
+			Para las rotaciones, para evitar un desborde de memoria se realizo lo siguiente
+			
+			se decrementa el valor de la variable sol constntemente en uno, hsta llegar en -360 grados,
+
+			al llegar a dicho valor se resetean todas las varibles.
+		*/
+		if (sol > -360)
+		{
+			sol = (0);
+			mercurio = (mercurio - 5);
+			venus = (venus - 5);
+			tierra = (tierra - 8);
+			marte = (marte - 20);
+			jupiter = (jupiter - 8);
+			saturno = (saturno - 9);
+			urano = (urano - 10);
+		}
+		else {
+			sol = 0;
+			mercurio = 0;
+			venus = 0;
+			tierra = 0;
+			marte = 0;
+			jupiter = 0;
+			saturno = 0;
+			urano = 0;
+		}
+		
 
 		dwLastUpdateTime = dwCurrentTime;
 	}
@@ -180,102 +237,104 @@ void animacion()
 	glutPostRedisplay();
 }
 
-void reshape ( int width , int height )   // Creamos funcion Reshape
+void reshape(int width, int height)   // Creamos funcion Reshape
 {
-  if (height==0)										// Prevenir division entre cero
+	if (height == 0)										// Prevenir division entre cero
 	{
-		height=1;
+		height = 1;
 	}
 
-	glViewport(0,0,width,height);	
+	glViewport(0, 0, width, height);
 
 	glMatrixMode(GL_PROJECTION);						// Seleccionamos Projection Matrix
 	glLoadIdentity();
 
 	// Tipo de Vista
-	
-	glFrustum (-0.1, 0.1,-0.1, 0.1, 0.1, 50.0);
+
+	glFrustum(-0.1, 0.1, -0.1, 0.1, 0.1, 50.0);
 
 	glMatrixMode(GL_MODELVIEW);							// Seleccionamos Modelview Matrix
 	//glLoadIdentity();
 }
 
-void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
+void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 {
-	switch ( key ) {
-		case 'w':   //Movimientos de camara
-		case 'W':
-			camaraZ +=0.5f;
-			break;
-		case 's':
-		case 'S':
-			camaraZ -=0.5f;
-			break;
-		case 'a':
-		case 'A':
-			camaraX -= 0.5f;
-			break;
-		case 'd':
-		case 'D':
-			camaraX += 0.5f;
-			break;
+	switch (key) {
+	case 'w':   //Movimientos de camara
+	case 'W':
+		camaraZ += 0.5f;
+		break;
+	case 's':
+	case 'S':
+		camaraZ -= 0.5f;
+		break;
+	case 'a':
+	case 'A':
+		camaraX -= 0.5f;
+		break;
+	case 'd':
+	case 'D':
+		camaraX += 0.5f;
+		break;
 
-		case 'i':		//Movimientos de Luz
-		case 'I':
-			
-			break;
-		case 'k':
-		case 'K':
-			
-			break;
+	case 'i':		//Movimientos de Luz
+	case 'I':
 
-		case 'l':   //Activamos/desactivamos luz
-		case 'L':
-			break;
-		case 27:        // Cuando Esc es presionado...
-			exit ( 0 );   // Salimos del programa
-			break;        
-		default:        // Cualquier otra
-			break;
-  }
+		break;
+	case 'k':
+	case 'K':
+
+		break;
+
+	case 'l':   //Activamos/desactivamos luz
+	case 'L':
+		break;
+	case 27:        // Cuando Esc es presionado...
+		exit(0);   // Salimos del programa
+		break;
+	default:        // Cualquier otra
+		break;
+	}
 	glutPostRedisplay();
 }
 
-void arrow_keys ( int a_keys, int x, int y )  // Funcion para manejo de teclas especiales (arrow keys)
+void arrow_keys(int a_keys, int x, int y)  // Funcion para manejo de teclas especiales (arrow keys)
 {
-  switch ( a_keys ) {
-    case GLUT_KEY_UP:     // Presionamos tecla ARRIBA...
+	switch (a_keys) {
+	case GLUT_KEY_UP:
+		// Presionamos tecla ARRIBA...
+		ejex += 1.0f;
 		break;
-    case GLUT_KEY_DOWN:               // Presionamos tecla ABAJO...
-		
+	case GLUT_KEY_DOWN:               // Presionamos tecla ABAJO...
+		ejex -= 1.0f;
 		break;
 	case GLUT_KEY_LEFT:
-		
+		ejey -= 1.0f;
 		break;
 	case GLUT_KEY_RIGHT:
-		
+		ejey += 1.0f;
 		break;
-    default:
-      break;
-  }
-  glutPostRedisplay();
+	default:
+		break;
+	}
+	glutPostRedisplay();
 }
 
 
-int main ( int argc, char** argv )   // Main Function
+int main(int argc, char** argv)   // Main Function
 {
-  glutInit            (&argc, argv); // Inicializamos OpenGL
-  glutInitDisplayMode (GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
-  glutInitWindowSize  (500, 500);	// Tamaño de la Ventana
-  glutInitWindowPosition (20, 60);	//Posicion de la Ventana
-  glutCreateWindow    ("Practica 6"); // Nombre de la Ventana
-  InitGL ();						// Parametros iniciales de la aplicacion
-  glutDisplayFunc     ( display );  //Indicamos a Glut función de dibujo
-  glutReshapeFunc     ( reshape );	//Indicamos a Glut función en caso de cambio de tamano
-  glutKeyboardFunc    ( keyboard );	//Indicamos a Glut función de manejo de teclado
-  glutSpecialFunc     ( arrow_keys );	//Otras
-  glutIdleFunc		  ( animacion );
-  glutMainLoop        ( );          // 
+	glutInit(&argc, argv); // Inicializamos OpenGL
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
+	glutInitWindowSize(500, 500);	// Tamaño de la Ventana
+	glutInitWindowPosition(20, 60);	//Posicion de la Ventana
+	glutCreateWindow("Practica 6"); // Nombre de la Ventana
+	InitGL();						// Parametros iniciales de la aplicacion
+	glutDisplayFunc(display);  //Indicamos a Glut función de dibujo
+	glutReshapeFunc(reshape);	//Indicamos a Glut función en caso de cambio de tamano
+	glutKeyboardFunc(keyboard);	//Indicamos a Glut función de manejo de teclado
+	glutSpecialFunc(arrow_keys);	//Otras
+	glutIdleFunc(animacion);
+	glutMainLoop();          // 
 
-  return 0;
+	return 0;
 }
