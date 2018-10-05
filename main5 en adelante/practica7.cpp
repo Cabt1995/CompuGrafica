@@ -2,11 +2,17 @@
 //************************************************************//
 //************************************************************//
 //************** Alumno (s): Basilio Torres Carlos Alberto****//
-//*************	Practica: 6								******//
+//*************	Practica: 7							******//
 //*************	Version de visual estudio: 2017         ******//
 //************************************************************//
 #include "Main.h"
 
+/*
+	flechas ariba y abajo hacen una rotacion en y
+	flechas izquierda y derecha hacen rotacion en x
+	a y d hacen traslacion en x
+	s y w hacen traslacion en z
+*/
 
 // Variables used to calculate frames per second: (Windows)
 DWORD dwFrames = 0;
@@ -36,29 +42,27 @@ GLfloat SunSpecular[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat SunPosition[] = { 0.0f, 0.0f, 0.0f, 0.0f };			// Light Position
 
 GLfloat MercAmbient[] = { 0.39225f,0.29225f,0.29225f,1.0f };
-GLfloat MercDiffuse[] = { 0.50754f, 0.50754f, 0.50754f, 1.0f };			// Marte
+GLfloat MercDiffuse[] = { 0.50754f, 0.50754f, 0.50754f, 1.0f };			// materiales de mercurio
 GLfloat MercSpecular[] = { 0.908273f, 0.908273f, 0.908273f, 1.0f };
 GLfloat MercShininess[] = { 1.0 };
 
 GLfloat VenAmbient[] = { 0.2125f,0.1275f,0.054f,1 };
-GLfloat VenDiffuse[] = { .714f, 0.4284f, 0.18144f, 1.0f };			// Marte
+GLfloat VenDiffuse[] = { .714f, 0.4284f, 0.18144f, 1.0f };			// materiales de venus
 GLfloat VenSpecular[] = { 0.393548f, 0.271906f, 0.166721f, 1.0 };
 GLfloat VenShininess[] = { 20 };
 
 GLfloat EarthAmbient[] = { 0.0f,.65f,1.0f,1.0f };
-GLfloat EarthDiffuse[] = { 0.2f, 0.2f, 1.0f, 1.0f };			// Tierra
+GLfloat EarthDiffuse[] = { 0.2f, 0.2f, 1.0f, 1.0f };			// Materiales de la tierra
 GLfloat EarthSpecular[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 GLfloat EarthShininess[] = { 50.0f };
 
 GLfloat MoonAmbient[] = { 1.0f,1.0f,1.0f,1.0f };
-GLfloat MoonDiffuse[] = { 0.2f, 0.2f, 1.0f, 1.0f };			// Tierra
+GLfloat MoonDiffuse[] = { 0.2f, 0.2f, 1.0f, 1.0f };			// Materiales de la luna
 GLfloat MoonSpecular[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 GLfloat MoonShininess[] = { 50.0 };
 
-
-
 GLfloat MarsAmbient[] = { 1,1,1,1 };
-GLfloat MarsDiffuse[] = { 0.8f, 0.4f, 0.1f, 1.0f };			// Marte
+GLfloat MarsDiffuse[] = { 0.8f, 0.4f, 0.1f, 1.0f };			// Materiales de marte
 GLfloat MarsSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
 GLfloat MarsShininess[] = { 50.0 };
 
@@ -69,12 +73,12 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	glClearDepth(1.0f);									// Configuramos Depth Buffer
 	glEnable(GL_DEPTH_TEST);							// Habilitamos Depth Testing
 	glDepthFunc(GL_LEQUAL);								// Tipo de Depth Testing a realizar
+	
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
+	//Acondicionamos la luz que vamos a utilizar
 	glLightfv(GL_LIGHT1, GL_AMBIENT, SunAmbiental);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, SunDiffuse);
 	glLightfv(GL_LIGHT1, GL_SPECULAR, SunSpecular);
-
 	glEnable(GL_LIGHT1);
 }
 
@@ -87,8 +91,6 @@ void display(void)   // Creamos la funcion donde se dibuja
 	glTranslatef(camaraX, 0.0, -5.0 + camaraZ);			//camara
 
 	glLightfv(GL_LIGHT1, GL_POSITION, SunPosition);
-	glEnable(GL_LIGHTING);
-
 	glRotatef(ejey, 0, 0, 1);
 	glRotatef(ejex, 1, 0, 0);
 
@@ -107,8 +109,9 @@ void display(void)   // Creamos la funcion donde se dibuja
 		glRotatef(2 * sol, 0.0, 1.0, 0.0); //traslacion a una velocidad de 2 veces la velocidad del sol
 		glTranslatef(-3.2, 0, 0);
 		glRotatef(mercurio, 0.0, 1.0, 0.0);
+		//definimos los  materiales de nuestro planeta
 		glMaterialfv(GL_FRONT, GL_AMBIENT, MercAmbient);
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,MercDiffuse);
+		glMaterialfv(GL_FRONT, GL_DIFFUSE,MercDiffuse);
 		glMaterialfv(GL_FRONT, GL_SPECULAR, MercSpecular);
 		glMaterialfv(GL_FRONT, GL_SHININESS, MercShininess);
 		glutSolidSphere(.3, 30, 30);  //radio de .3 unidades
@@ -118,6 +121,7 @@ void display(void)   // Creamos la funcion donde se dibuja
 	glRotatef(3 * sol, 0.0, 1.0, 0.0);//traslacion a una velocidad de 3 veces la velocidad del sol
 	glTranslatef(4.5, 0, 0);
 	glRotatef(venus, 0.0, 1.0, 0.0);
+	//definimos los  materiales de nuestro planeta
 	glMaterialfv(GL_FRONT, GL_AMBIENT, VenAmbient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, VenDiffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, VenSpecular);
@@ -130,6 +134,7 @@ void display(void)   // Creamos la funcion donde se dibuja
 	glTranslatef(-7, 0, 0);
 	glRotatef(tierra, 0.0, 1.0, 0.0);
 	glColor3f(0, 0.6, 1);	//planeta azul
+	//definimos los  materiales de nuestro planeta
 	glMaterialfv(GL_FRONT, GL_AMBIENT, EarthAmbient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, EarthDiffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, EarthSpecular);
@@ -140,6 +145,7 @@ void display(void)   // Creamos la funcion donde se dibuja
 			glRotatef(.4 * tierra, 0.0, 1.0, 0.0);//traslacion a una velocidad de .4 veces la velocidad de la tierra
 			glTranslatef(.9, 0, 0);
 			glRotatef(tierra, 0.0, 1.0, 0.0);
+			//definimos los  materiales de nuestra luna
 			glMaterialfv(GL_FRONT, GL_AMBIENT, MoonAmbient);
 			glMaterialfv(GL_FRONT, GL_DIFFUSE, MoonDiffuse);
 			glMaterialfv(GL_FRONT, GL_SPECULAR, MoonSpecular);
@@ -244,7 +250,6 @@ void animacion()
 	{
 		/*
 		Para las rotaciones, para evitar un desborde de memoria se realizo lo siguiente
-
 		se decrementa el valor de la variable sol constntemente en uno, hsta llegar en -360 grados,
 		al llegar a dicho valor se resetean todas las varibles.
 		*/
